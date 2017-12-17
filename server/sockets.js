@@ -1,5 +1,7 @@
 "use strict";
 
+const MessageModel = require('./models/messages.model');
+
 module.exports = io => {
     io.on('connection', function (socket) {
         socket.emit('connected', "You are connected");
@@ -10,8 +12,13 @@ module.exports = io => {
                 content: content,
                 username: user
             };
+            MessageModel.create(obj, err => {
+                if (err) {
+                    return console.error("MessageModel", err)
+                }
                 socket.emit('message', obj);
                 socket.to('all').emit('message', obj);
             });
         });
-    };
+    });
+};
