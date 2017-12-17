@@ -3,7 +3,12 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
+const nunjucks = require('nunjucks');
 
+nunjucks.configure('./client/views', {
+    autoescape: true,
+    express: app
+});
 
 
 server.listen(3000, function () {
