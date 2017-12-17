@@ -9,6 +9,8 @@ nunjucks.configure('./client/views', {
     autoescape: true,
     express: app
 });
+
+require('./sockets')(io);
 require('./router')(app);
 
 
