@@ -6,6 +6,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server, {serverClient: true});
 const mongoose = require('mongoose');
 const nunjucks = require('nunjucks');
+const bodyParser = require('body-parser');
 
 nunjucks.configure('./client/views', {
     autoescape: true,
@@ -24,6 +25,12 @@ passport.use(new Strategy(jwt, function (jwt_payload, done) {
 mongoose.connect('mongodb://localhost:27017/chat', {useMongoClient: true});
 mongoose.Promise = require('bluebird');
 mongoose.set('debug', true);
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}));
+
+// parse application/json
+app.use(bodyParser.json());
 
 require('./sockets')(io);
 require('./router')(app);
