@@ -7,6 +7,7 @@ const io = require('socket.io')(server, {serverClient: true});
 const mongoose = require('mongoose');
 const nunjucks = require('nunjucks');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 nunjucks.configure('./client/views', {
     autoescape: true,
@@ -31,6 +32,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // parse application/json
 app.use(bodyParser.json());
+
+app.use(cookieParser());
 
 require('./sockets')(io);
 require('./router')(app);
